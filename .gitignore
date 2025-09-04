@@ -101,3 +101,6 @@ credentials
 Network Trash Folder
 Temporary Items
 .apdisk
+sbom_trivy.json
+.gitignore
+sbom.json
