@@ -408,17 +408,31 @@ Answer:"""
                 "chunks_found": 0
             }
         
-        print(f"📋 Found {len(similar_chunks)} relevant chunks")
+        # print(f"📋 Found {len(similar_chunks)} relevant chunks")  # Commented out to avoid duplicate output
         
-        # Show source distribution for debugging
+        # Show source distribution and relevance scores for educational purposes
         source_counts = {}
         for chunk in similar_chunks:
             source = chunk['metadata']['source']
             source_counts[source] = source_counts.get(source, 0) + 1
         
-        print(f"📊 Source distribution:")
-        for source, count in source_counts.items():
-            print(f"  📄 {source}: {count} chunks")
+        print(f"📊 Found {len(similar_chunks)} relevant chunks with similarity scores:")
+        for i, chunk in enumerate(similar_chunks, 1):
+            distance = chunk['distance']
+            relevance = "very relevant" if distance < 0.3 else "relevant" if distance < 0.6 else "somewhat relevant"
+            source = chunk['metadata']['source']
+            # Remove line breaks and normalize whitespace for clean preview
+            clean_text = ' '.join(chunk['text'].split())
+            preview = clean_text[:60] + "..." if len(clean_text) > 60 else clean_text
+            print(f"  {i}. 📄 {source}")
+            print(f"     📊 Distance: {distance:.3f} ({relevance})")
+            print(f"     📝 Preview: {preview}")
+            print()
+        
+        if len(source_counts) > 1:
+            print(f"📈 Source distribution:")
+            for source, count in source_counts.items():
+                print(f"  📄 {source}: {count} chunks")
         
         # Generate answer
         answer = self.generate_answer(question, similar_chunks)
