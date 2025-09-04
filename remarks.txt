@@ -1,0 +1,34 @@
+lacework sca scan ./ -f cdx-json -o sbom.json
+* Walking through the directory /Users/xxradar/testing/demarag
+* Generating Lacework BOM of directory /Users/xxradar/testing/demarag
+* Generating file lists for artifacts
+* Evaluating BOM model for issues
+* Running static analysis on directory /Users/xxradar/testing/demarag
+* Generating source control references for directory /Users/xxradar/testing/demarag
+* Counting lines of code
+
+Summary
+-------
+  Root artifact: https://github.com/xxradar/rag_demo.git
+  Artifacts analyzed: 96
+  Identities found: 1
+  Repositories found: 1
+
+No vulnerabilities found
+
+No weaknesses found
+
+No secrets found
+* Writing CycloneDX-JSON output to sbom.json
+(.venv) xxradar@Philippes-MacBook-Pro-2 demarag %
+
+
+(.venv) xxradar@Philippes-MacBook-Pro-2 demarag % trivy fs ./ \
+  --scanners vuln,secret,license,config \
+  --format cyclonedx \
+  --output sbom_trivy.json
+
+
+  
+
+
