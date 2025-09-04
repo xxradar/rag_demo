@@ -27,6 +27,7 @@ flowchart TD
     D --> E[Vector DB<br/>ChromaDB]
     E --> F[Semantic Search<br/>Query Matching]
     F --> G[AI Generation<br/>GPT Response]
+```
 
 ## 🔧 Key Components
 
