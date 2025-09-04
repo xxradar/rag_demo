@@ -17,7 +17,15 @@ This system demonstrates how to build a **Retrieval-Augmented Generation (RAG)**
      ↓              ↓                ↓              ↓             ↓              ↓                 ↓
   PDF Files    Text Extraction   500-char chunks  OpenAI API   ChromaDB    Query Matching    GPT Response
 ```
-
+```
+flowchart LR
+    A[S3 Bucket\nPDF Files] --> B[PDF Processing\nText Extraction]
+    B --> C[Text Chunking\n500-char chunks]
+    C --> D[Embeddings\nOpenAI API]
+    D --> E[Vector DB\nChromaDB]
+    E --> F[Semantic Search\nQuery Matching]
+    F --> G[AI Generation\nGPT Response]
+```
 ## 🔧 Key Components
 
 ### 1. **Document Discovery & Processing**
