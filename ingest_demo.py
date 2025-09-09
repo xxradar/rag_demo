@@ -493,41 +493,42 @@ def main():
     available_files = rag.list_s3_files()
     
     # Filter to only PDF files (you can modify this filter as needed)
-    pdf_files = [f for f in available_files if f.lower().endswith('.pdf')]
-    
-    if not pdf_files:
-        print("❌ No PDF files found in S3 bucket")
+    # Filter to PDF and TXT files
+    doc_files = [f for f in available_files if f.lower().endswith(('.pdf', '.txt'))]
+
+    if not doc_files:
+        print("❌ No PDF or TXT files found in S3 bucket")
         return
-    
-    print(f"\n📄 Found {len(pdf_files)} PDF files in S3:")
-    for pdf_file in pdf_files:
-        print(f"  📄 {pdf_file}")
-    
+
+    print(f"\n📄 Found {len(doc_files)} PDF/TXT files in S3:")
+    for doc_file in doc_files:
+        print(f"  📄 {doc_file}")
+
     # Check which files need processing vs already processed
     files_to_process = []
     files_already_processed = []
-    
-    for pdf_file in pdf_files:
-        if rag.check_document_exists(pdf_file):
-            files_already_processed.append(pdf_file)
-            print(f"✅ {pdf_file} already processed (will skip)")
+
+    for doc_file in doc_files:
+        if rag.check_document_exists(doc_file):
+            files_already_processed.append(doc_file)
+            print(f"✅ {doc_file} already processed (will skip)")
         else:
-            files_to_process.append(pdf_file)
-            print(f"🔄 {pdf_file} needs processing")
-    
+            files_to_process.append(doc_file)
+            print(f"🔄 {doc_file} needs processing")
+
     # Process only new documents
     if files_to_process:
         print(f"\n📚 Processing {len(files_to_process)} new documents...")
         print("=" * 50)
-        
-        for pdf_file in files_to_process:
-            print(f"\n🔄 Processing: {pdf_file}")
-            success = rag.add_document_to_vectorstore(pdf_file)
+
+        for doc_file in files_to_process:
+            print(f"\n🔄 Processing: {doc_file}")
+            success = rag.add_document_to_vectorstore(doc_file)
             if success:
-                print(f"✅ Successfully processed and stored {pdf_file}")
+                print(f"✅ Successfully processed and stored {doc_file}")
             else:
-                print(f"❌ Failed to process {pdf_file}")
-        
+                print(f"❌ Failed to process {doc_file}")
+
         # Show updated collection status
         final_info = rag.get_collection_info()
         print(f"\n📊 Updated collection status:")
